@@ -1,0 +1,26 @@
+[console]
+pushd C:\WORKS\WS\Eclipse_Luna\Smarty
+
+[sqlite]
+sqlite3 C:\WORKS\WS\Eclipse_Luna\Smarty\main\development.sqlite3
+
+sqlite3 C:\WORKS\WS\Eclipse_Luna\Smarty\D-2\development.sqlite3
+
+.explain on
+.tables
+pragma table_info(categories);
+pragma table_info(tokens);
+pragma table_info(genres);
+
+pragma table_info(Dogs);
+
+SELECT * FROM Dogs;
+
+SELECT * FROM tokens;
+SELECT * FROM genres;
+
+DROP TABLE tokens;
+DROP TABLE genres;
+
+REF http://stackoverflow.com/questions/12436596/how-to-count-number-of-records-in-sqlite answered Sep 15 '12 at 15:07
+SELECT COUNT(*) FROM tokens;
