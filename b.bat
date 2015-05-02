@@ -47,7 +47,7 @@ popd
 
 :start_chrome
 
-start chrome.exe http://localhost/Smarty/
+start chrome.exe http://localhost/smarty_Youttube/main/main.php
 REM start chrome.exe http://benfranklin.chips.jp/Labs/Smarty/D-1/D-1.php
 start chrome.exe http://benfranklin.chips.jp/Labs/Smarty/main/D-3.php
 start chrome.exe "https://mysqladmin.lolipop.jp/pma/index.php?db=LAA0278957-cakevm&table=positions&target=sql.php&server=110&token=cb582dcc1a162a60fddda6c688b049f0"
@@ -58,7 +58,7 @@ goto end
 
 :start_ff
 
-start firefox.exe http://localhost/Smarty/
+start firefox.exe http://localhost/smarty_Youttube/main/main.php
 REM start firefox.exe http://benfranklin.chips.jp/Labs/Smarty/D-1/D-1.php
 start chrome.exe http://benfranklin.chips.jp/Labs/Smarty/main/D-3.php
 start firefox.exe "https://mysqladmin.lolipop.jp/pma/index.php?db=LAA0278957-cakevm&table=positions&target=sql.php&server=110&token=cb582dcc1a162a60fddda6c688b049f0"

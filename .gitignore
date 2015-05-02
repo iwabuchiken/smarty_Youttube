@@ -4,3 +4,4 @@
 #*/libs/*
 #*.csv
 /libs/templates_c/
+/libs/cache/

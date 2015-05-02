@@ -1505,6 +1505,7 @@
 			$row => ([0] => id, [1] => created_at, ...)
 		*******************************/
 		public static function
+// 		conv_DB_2_Category($row) {
 		conv_DB_2_Category($smarty, $row) {
 
 			$category = new Category();
@@ -1525,6 +1526,34 @@
 			return $category;
 			
 		}//conv_Row_2_Category
+
+		/*******************************
+			convert: a row of db record to a genre instance<br>
+			@param
+			$row => ([0] => id, [1] => created_at, ...)
+		*******************************/
+		public static function
+		conv_DB_2_Genre($smarty, $row) {
+
+			$genre = new Genre();
+
+			$genre
+					->set_db_Id($row[0])
+					->set_created_at($row[1])
+					->set_updated_at($row[2])
+					
+					->set_code($row[3])
+					->set_name($row[4])
+					
+					->set_original_id($row[5])
+			;
+				
+			/*******************************
+				return
+			*******************************/
+			return $genre;
+			
+		}//conv_Row_2_Genre
 
 		public static function
 		divide_CSV($smarty) {
@@ -2235,7 +2264,7 @@
 			
 			$db_id = "";
 			
-			$nouns_2 = array();
+			$nouns_2 = array();		// array of Histo
 			
 			for ($i = 0; $i < count($tokens); $i++) {
 					
@@ -2270,13 +2299,15 @@
 			
 							$tmp = new Histo();
 							
+							$tmp->set_db_id($db_id);
+							
 							$tmp->set_form($s);
 							$tmp->set_hin($hin);
 							$tmp->set_hin_1($hin_1);
 							$tmp->set_hin_2($hin_2);
 							$tmp->set_hin_3($hin_3);
 							
-							$tmp->set_db_id($db_id);
+// 							$tmp->set_db_id($db_id);
 							
 							array_push($nouns_2, $tmp);
 // 							array_push($nouns_2, $s);;
@@ -2307,7 +2338,7 @@
 			/*******************************
 				nouns list => skim
 			*******************************/
-			$nouns_skimmed_2 = array();
+			$nouns_skimmed_2 = array();		// array of Histo instances
 			
 			for ($i = 0; $i < count($nouns_2); $i++) {
 				
@@ -2362,6 +2393,12 @@
 					
 					if ($s->get_form() == $n->get_form()) {
 
+						if ($histo_2[$s->get_form()]['db_id'] == null) {
+								
+							$histo_2[$s->get_form()]['db_id'] = $s->get_db_id();
+								
+						}
+						
 						if ($histo_2[$s->get_form()]['form'] == null) {
 							
 							$histo_2[$s->get_form()]['form'] = $s->get_form();
@@ -2392,11 +2429,11 @@
 							
 						}
 						
-						if ($histo_2[$s->get_form()]['db_id'] == null) {
+// 						if ($histo_2[$s->get_form()]['db_id'] == null) {
 							
-							$histo_2[$s->get_form()]['db_id'] = $s->get_db_id();
+// 							$histo_2[$s->get_form()]['db_id'] = $s->get_db_id();
 							
-						}
+// 						}
 						
 // 						$histo_2[$s->get_form()]['db_id'] .= 
 						
@@ -2561,7 +2598,149 @@
 // 			return ;
 		
 		}//createTable($smarty, $tname)
-		
+
+		public static function
+		create_HistoFile_from_CatID($smarty, $cat_id) {
+			
+			/*******************************
+				prep: histo
+			*******************************/
+			$tokens = DB::findAll_Tokens_from_CatID($smarty, $cat_id);
+			
+			printf("[%s : %d] tokens => %d", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__, count($tokens));
+			
+			echo "<br>"; echo "<br>";
+			
+			$histo = Utils::get_Histogram($tokens);
+
+			printf("[%s : %d] histo => %d", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__, count($histo));
+			
+			echo "<br>"; echo "<br>";
+
+			/*******************************
+				debug: view
+			*******************************/
+			$smarty->assign("histo", array_slice($histo, 0, 100));
+// 			$smarty->assign("histo", array_slice($histo, 0, 50));
+// 			$smarty->assign("histo", array_slice($histo, 0, 20));
+			
+			$header = array(
+						
+					"SN",
+					"db ids",
+					"form",
+					"hin",
+					"hin_1",
+					"hin_2",
+					"hin_3",
+					"histo",
+			);
+			
+			$smarty->assign("header", $header);
+				
+			/*******************************
+				write file
+			*******************************/
+			$fname = "../data/histo_file_cat=$cat_id.csv";
+
+			$fout = fopen($fname, "w");
+			
+			$histo_file_size = CONS::$histo_file_size;
+			
+			$hs = array_slice($histo, 0,$histo_file_size);
+// 			$hs = array_slice($histo, 0,10);
+			
+			$count = 0;
+			
+// 			printf("[%s : %d] \$hs[5] => ", 
+// 							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+			
+// 			echo "<br>"; echo "<br>";
+			
+// 			var_dump($hs[array_keys($hs)[5]]);
+			
+			foreach ($hs as $h) {
+				
+				$tmp = array(
+					
+						$h['db_id'],
+						$h['form'],
+						
+						$h['hin'],
+						$h['hin_1'],
+						$h['hin_2'],
+						$h['hin_3'],
+						$h['histo'],
+						
+				);
+				
+// 				var_dump($h);
+				
+// 				echo "<br>"; echo "<br>";
+				
+// 				printf("[%s : %d] db_id => %s", 
+// 								Utils::get_Dirname(__FILE__, CONS::$proj_Name), 
+// 								__LINE__, $h['db_id']);
+// // 								__LINE__, $h->get_db_id());
+
+// 				echo "<br>"; echo "<br>";
+				
+// 				echo "<br>"; echo "<br>";
+				
+				
+// 				$tmp = array(
+					
+// 						$h->get_db_id(),
+// 						$h->get_form(),
+// 						$h->get_hin(),
+// 				);
+				
+// 				$res = fputcsv($fout, $h);
+				$res = fputcsv($fout, $tmp);
+				
+				if ($res != false) {
+					
+					$count ++;
+					
+				}
+				
+			}
+			
+			fclose($fout);
+			
+			printf("[%s : %d] csv written => %d lines out of %d", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), 
+							__LINE__, $count, count($hs));
+			
+			echo "<br>"; echo "<br>";
+			
+// 			/*******************************
+// 				test
+// 			*******************************/
+// 			$h = $histo[array_keys($histo)[10]];
+// // 			$h = $histo[10];
+			
+// 			$ser = serialize($h);
+			
+// 			printf("[%s : %d] serialized => ", 
+// 							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+			
+			
+// 			var_dump($ser);
+			
+// 			$obj = unserialize($ser);
+			
+// 			printf("[%s : %d] unserialize => ", 
+// 							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+			
+			
+// 			var_dump($obj);
+			
+// 			echo "<br>"; echo "<br>";
+			
+		}//create_HistoFile_from_CatID
 		
 	}//class Utils
 	
