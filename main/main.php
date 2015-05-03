@@ -1,43 +1,14 @@
 <!--  <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
-<script type="text/javascript">google.load("jquery", "1.7.1");</script>
+<!-- <script type="text/javascript">google.load("jquery", "1.7.1");</script> -->
+
+
 <!-- <script type="text/javascript" src="/smarty_Youttube/main/utils/utils.js"> -->
 <!-- <script type="text/javascript" src="/utils/utils.js"> -->
 <!-- <script type="text/javascript" src="utils/utils.js"> -->
 
 <!-- </script> -->
 
-<script type="text/javascript">
- $(document).ready(function() {
- 	var url = "http://gdata.youtube.com/feeds/api/users/Apple/uploads";
- 	$.getJSON(url, { alt:'json' }, function(json) {
- 		//処理を書く
 
- // 		alert(json);
- // 		alert(get_class(json));
-
- 		var myObject = json;
-
- 		var count = Object.keys(myObject).length;
-
- 		alert("count => "+count);
-
- 		//REF http://stackoverflow.com/questions/8430336/get-keys-of-json-object-in-javascript
- 		var j1 = json[0];
-
- 		alert(j1);
-		
- // 		console.log(count);
-
- // 		$("#message").text(json_decode(json));
- // 		$("#message").html(json_decode(json));
- // 		$("#message").html("abc");
-		
- 	});
-
- 	alert(url);
-	
- });
-</script>
 
 <!-- <div id="message"> -->
 
@@ -249,14 +220,18 @@
 		
 		if ($server_name == 'localhost') {
 		
-			$css_file_path = "/smarty_Youttube/main/templates/rsc/css/main.css";
+			$css_file_path	= "/smarty_Youttube/main/templates/rsc/css/main.css";
+// 			$js_file_path	= "/main.js";
+// 			$js_file_path	= "main.js";
+// 			$js_file_path	= "/smarty_Youttube/main/templates/rsc/css/main.js";
 			$js_file_path = "/smarty_Youttube/main/templates/rsc/js/main.js";
 			// 			$css_file_path = "/Smarty/main/templates/rsc/css/main.css";
 			// 			$css_file_path = "/Smarty/main/libs/templates/rsc/css/main.css";
 		
 		} else {
 		
-			$css_file_path = "/Labs/smarty_Youttube/main/templates/rsc/css/main.css";
+			$css_file_path	= "/Labs/smarty_Youttube/main/templates/rsc/css/main.css";
+// 			$js_file_path	= "/Labs/smarty_Youttube/main/templates/rsc/css/main.js";
 			$js_file_path = "/Labs/smarty_Youttube/main/templates/rsc/js/main.js";
 			// 			$css_file_path = "/Labs/Smarty/main/templates/rsc/css/main.css";
 		

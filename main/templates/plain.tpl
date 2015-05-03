@@ -1,60 +1,37 @@
-<html>
-  <head>
-    <title>
-    
-    	{$title}
-    	
-    	{php}
-    	
-    	
-    	
-    		//echo __FILE__;
-    		//echo "abc";
-    	
-    		//printf("%s", 
-			//		Utils::get_Dirname(__FILE__, CONS::$proj_Name));
-	
-    	
-    		//echo __FILE__;
-    	
-    	{/php}
-    
-    </title>
-    
-    <link rel="stylesheet" type="text/css" href="{$path_css}" /><!-- working !! -->
+  	<!-- <script type="text/javascript">google.load("jquery", "1.7.1");</script> -->
+  	
+  	<link rel="stylesheet" type="text/css" href="{$path_css}" /><!-- working !! -->
+  	
+  	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  	<script type="text/javascript" src="{$path_js}"></script>
+  	
+<!--   	<script type="text/javascript"> -->
+  	
+<!-- //    		{fetch file="http://localhost/smarty_Youttube/main/templates/rsc/js/main.js"} -->
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    
-	<!-- <script type="text/javascript">google.load("jquery", "1.7.1");</script> -->
+<!--   	</script> -->
+  	
+  	<script type="text/javascript"">
 
-    <script type="text/javascript">google.load("jquery", "1.7.1");</script>
-    
-    <script type="text/javascript">
+// 		function do_job() {
 
-	    $(document).ready(function() {
-	    	
-	    	alert("main.js");
-	    	
-	    }
+// 			alert("job");
 
-    </script>
-    
-<!--     <script type="text/javascript" src="{$path_js}"></script> -->
-    
-  </head>
-	
-  <body>
+// 		}
+  	  	
 
+  	</script>
+  	
   	<div class="blue">
   	
 	  	{$message}
 		  	
   	</div>
-  
+
+  	<button onclick="do_job()">CLICK</button>
+  	
   	<div id="message">
-
-
-	</div>
-	  	
-  </body>
-</html>
+  	
+  	
+  	
+  	</div>
