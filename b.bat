@@ -49,7 +49,7 @@ popd
 
 start chrome.exe http://localhost/smarty_Youttube/main/main.php
 REM start chrome.exe http://benfranklin.chips.jp/Labs/Smarty/D-1/D-1.php
-start chrome.exe http://benfranklin.chips.jp/Labs/Smarty/main/D-3.php
+start chrome.exe http://benfranklin.chips.jp/Labs/smarty_Youttube/main/main.php
 start chrome.exe "https://mysqladmin.lolipop.jp/pma/index.php?db=LAA0278957-cakevm&table=positions&target=sql.php&server=110&token=cb582dcc1a162a60fddda6c688b049f0"
 start chrome.exe chrome-extension://ohbfkkmpnlpgbbfdflaiikoohbidaikj/app.html
 start chrome.exe https://docs.google.com/spreadsheets/d/1GlMjFYCAdSc87V-BhGAM-sz-Kka6AlyxgS-0jqvPlPc/edit#gid=0
@@ -60,7 +60,7 @@ goto end
 
 start firefox.exe http://localhost/smarty_Youttube/main/main.php
 REM start firefox.exe http://benfranklin.chips.jp/Labs/Smarty/D-1/D-1.php
-start chrome.exe http://benfranklin.chips.jp/Labs/Smarty/main/D-3.php
+start chrome.exe http://benfranklin.chips.jp/Labs/smarty_Youttube/main/main.php
 start firefox.exe "https://mysqladmin.lolipop.jp/pma/index.php?db=LAA0278957-cakevm&table=positions&target=sql.php&server=110&token=cb582dcc1a162a60fddda6c688b049f0"
 start chrome.exe https://docs.google.com/spreadsheets/d/1GlMjFYCAdSc87V-BhGAM-sz-Kka6AlyxgS-0jqvPlPc/edit#gid=0
 

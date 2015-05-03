@@ -5,7 +5,7 @@ class CONS {
 	/**********************************
 	* commons
 	**********************************/
-	public static $proj_Name = "Smarty";
+	public static $proj_Name = "smarty_Youttube";
 	
 	public static $numOf_Modulus = 40;
 	

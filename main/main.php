@@ -1,20 +1,3 @@
-<!--  <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
-<!-- <script type="text/javascript">google.load("jquery", "1.7.1");</script> -->
-
-
-<!-- <script type="text/javascript" src="/smarty_Youttube/main/utils/utils.js"> -->
-<!-- <script type="text/javascript" src="/utils/utils.js"> -->
-<!-- <script type="text/javascript" src="utils/utils.js"> -->
-
-<!-- </script> -->
-
-
-
-<!-- <div id="message"> -->
-
-
-<!-- </div> -->
-
 <?php
 
 	require 'utils/utils.php';
@@ -22,10 +5,6 @@
 	require('../libs/Smarty.class.php');	//=> works
 	require('../libs/SmartyBC.class.php');	//=>
 	
-// 	echo $_SERVER['SERVER_ADDR'];
-	
-// 	echo "<br>"; echo "<br>";
-
 	function smarty_Setup($smarty) {
 	
 		$smarty->setCaching(true);
@@ -70,36 +49,22 @@
 			$tpl_name_edited = $tpl_name;
 				
 		}
-	
+
+		/*******************************
+			assigns
+		*******************************/
 		$smarty->assign('tpl_name', $tpl_name_edited);		//=> w
 	
 		$smarty->assign('title', $tpl_name_edited);
-	
+
+		$smarty->assign('_FILE_', __FILE__);
+// 		$smarty->assign('_FILE_', basename(__FILE__));
+
 		/*******************************
 		 assign: css file
 		*******************************/
 		setup_CSS($smarty);
 		
-// 		$server_name = Utils::get_ServerName();
-	
-// 		if ($server_name == 'localhost') {
-	
-// 			$css_file_path = "/Smarty/main/templates/rsc/css/main.css";
-// 			// 			$css_file_path = "/Smarty/main/libs/templates/rsc/css/main.css";
-	
-// 		} else {
-	
-// 			$css_file_path = "/Labs/Smarty/main/templates/rsc/css/main.css";
-				
-// 		}//if ($server_name == 'localhost')
-	
-	
-// 			// 		$smarty->assign('path_css', "/Smarty/main/libs/templates/rsc/css/main.css!");
-// 		$smarty->assign('path_css', $css_file_path);
-// 		// 		$smarty->assign('path_css', "/Smarty/main/libs/templates/rsc/css/main.css");
-	
-	
-	
 		$smarty->display("templates/$tpl_name");	//=> w
 		// 		$smarty->display("../templates/$tpl_name");	//=> w
 	
@@ -245,6 +210,10 @@
 		
 		
 	}
+
+	function setup_Assigns($smarty) {
+		
+	}//setup_Assigns($smarty)
 	
 	function setup() {
 
@@ -258,42 +227,243 @@
 		/*******************************
 			assigns
 		*******************************/
-// 		$tmp = explode(DIRECTORY_SEPARATOR, __FILE__);
+// 		setup_Assigns($smarty);
 		
-// 		$smarty->assign("title", $tmp[count($tmp) - 1]);
-		
-// 		/*******************************
-// 			setup: css
-// 		*******************************/
-// 		setup_CSS($smarty);
-
 		/*******************************
-			execute
+			view
 		*******************************/
-		$tpl_name = "plain.tpl";	//
+// 		$tpl_name = "plain.tpl";	//
 		// 		$tpl_name = "D-3/index/D_3_V_2_0.tpl";	//
+				$tpl_name = "D-3/main.tpl";	//
 		
 		$smarty->assign("message", "ok");
 		
 		execute_View($smarty, $tpl_name);
 
 		/*******************************
-			meta
+		 youtube
 		*******************************/
 		echo "<br>"; echo "<br>";
 		
+		setup_Youtube($smarty);
 		
+		
+		/*******************************
+			meta
+		*******************************/
+		echo "<br>"; echo "<br>";
 		
 		echo $_SERVER['SERVER_ADDR'];
 		
 		echo "<br>"; echo "<br>";
 		
-// 		D_1_V_1_0($smarty);
+	}//setup()
+
+	function 
+	setup_Youtube($smarty) {
+
+		//REF http://stackoverflow.com/questions/4607855/getting-videos-from-a-users-playlist-youtube-api answered Feb 9 '11 at 15:35
 		
+		$pl_id = "Ze1Q2NRG8YVKeoyvkD-_zKV38_Udoi8C";
+		
+		$url = "http://gdata.youtube.com/feeds/api/playlists/$pl_id/?v=2&alt=json&feature=plcp";
+// 		$url = "http://gdata.youtube.com/feeds/api/playlists/Ze1Q2NRG8YVKeoyvkD-_zKV38_Udoi8C/?v=2&alt=json&feature=plcp";
+		
+		$cont = json_decode(file_get_contents($url));
+		// 		$cont = json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/playlists/Ze1Q2NRG8YVKeoyvkD-_zKV38_Udoi8C/?v=2&alt=json&feature=plcp'));
+		
+		$feed = $cont->feed->entry;
 
-	}
+		echo "<br>"; echo "<br>";
+		
+		foreach ($cont->feed as $key => $val) {
+			
+			printf("[%s : %d] feed: key => ", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+			
+			echo "<br>"; echo "<br>";
+			
+			var_dump($key);
+			
+			echo "<br>"; echo "<br>";
+			
+		}
+		
+		printf("[%s : %d] feed => %d",
+				Utils::get_Dirname(__FILE__, CONS::$proj_Name),
+				__LINE__, count($feed));
+		
+		echo "<br>"; echo "<br>";
 
-	
+		printf("[%s : %d] feed => title", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+		
+		
+		echo "<br>"; echo "<br>";
+		
+		var_dump($cont->feed->title);
+		
+		echo "<br>"; echo "<br>";
+		
+		$count = 0;
+		
+		$count_feed = 1;
+		
+		$ary_feed_values = array();
+		
+		$tmp_flag = false;
+		
+		$serial_num = 0;
+		
+		// keys
+		foreach ($feed as $key => $val) {
+			
+			printf("[%s : %d] feed(%d) => (class=%s)", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), 
+							__LINE__, $count_feed, get_class($val));
+// 			printf("[%s : %d] feed(%d) => ", 
+// 							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__, $count_feed);
+			
+			echo "<br>"; echo "<br>";
+
+			printf("[%s : %d] feed[%d]->id ==> ",
+			Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__, $serial_num);
+			
+			echo "<br>"; echo "<br>";
+			
+			var_dump($feed[$serial_num]->id);
+// 			var_dump($feed->id);
+// 			var_dump($feed[0]->id);
+
+			echo "<br>"; echo "<br>";
+			
+			$serial_num ++;
+			
+			$count = 0;
+			
+			foreach ($val as $val_key => $val_val) {
+
+				$count ++;
+				
+				if ($tmp_flag == false) {
+					
+					array_push($ary_feed_values, $val_key);
+					
+				}
+				
+			}
+			
+			$tmp_flag = true;
+			
+			printf("[%s : %d] val_keys => %d", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__, $count);
+			
+			echo "<br>"; echo "<br>";
+			
+			$count_feed ++;
+			
+			echo "<br>"; echo "<br>";
+			
+		}//foreach ($feed as $key => $val)
+			
+		printf("[%s : %d] keys => ", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+		
+		echo "<br>"; echo "<br>";
+		
+		var_dump($ary_feed_values);
+		
+		echo "<br>"; echo "<br>";
+		
+		printf("[%s : %d] feed[0]->id ==> ", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+		
+		echo "<br>"; echo "<br>";
+		
+		var_dump($feed[0]->id);
+		
+		echo "<br>"; echo "<br>";
+		
+		printf("[%s : %d] feed[0]->title ==> ", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+		
+		echo "<br>"; echo "<br>";
+		
+		var_dump($feed[0]->title->{'$t'}." (strlen => ".mb_strlen($feed[0]->title->{'$t'}).")");
+// 		var_dump($feed[0]->title->{'$t'});
+// 		var_dump($feed[0]->title);
+		
+		echo "<br>"; echo "<br>";
+		
+		/*******************************
+			test: youtube play
+		*******************************/
+		//REF http://stackoverflow.com/questions/3392993/php-regex-to-get-youtube-video-id answered Aug 3 '10 at 1:27
+		$url = "https://www.youtube.com/watch?v=g69qeYuKoRk&list=PLZe1Q2NRG8YVKeoyvkD-_zKV38_Udoi8C&index=1";
+// 		$url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=relate";
+
+		printf("[%s : %d] url => %s", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__, $url);
+		
+		
+		echo "<br>"; echo "<br>";
+		
+		parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );
+		
+		printf("[%s : %d] parse => ", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+		
+// 		echo $my_array_of_vars['v'];
+
+		var_dump($my_array_of_vars);
+
+		echo "<br>"; echo "<br>";
+		
+		$res = parse_url( $url, PHP_URL_QUERY );
+		
+		printf("[%s : %d] parse_url => ", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+						//=> array(3) { ["v"]=> string(11) "g69qeYuKoRk" ["list"]=> string(34) "PLZe1Q2NRG8YVKeoyvkD-_zKV38_Udoi8C" ["index"]=> string(1) "1" }
+// 		echo $my_array_of_vars['v'];
+
+		var_dump($res);		//=> v=g69qeYuKoRk&list=PLZe1Q2NRG8YVKeoyvkD-_zKV38_Udoi8C&index=1
+
+		echo "<br>"; echo "<br>";
+		
+		$res = parse_url( $url, PHP_URL_HOST );
+		
+		printf("[%s : %d] parse_url" 
+					."PHP_URL_HOST/PHP_URL_USER/PHP_URL_SCHEME/PHP_URL_FRAGMENT/PHP_URL_PATH => "
+					."%s || %s || %s || %s || %s $", 
+						Utils::get_Dirname(__FILE__, CONS::$proj_Name), 
+						__LINE__,
+						parse_url( $url, PHP_URL_HOST ),
+						parse_url( $url, PHP_URL_USER ),
+						parse_url( $url, PHP_URL_SCHEME ),
+						parse_url( $url, PHP_URL_FRAGMENT ),
+						parse_url( $url, PHP_URL_PATH )
+		);
+						//=> array(3) { ["v"]=> string(11) "g69qeYuKoRk" ["list"]=> string(34) "PLZe1Q2NRG8YVKeoyvkD-_zKV38_Udoi8C" ["index"]=> string(1) "1" }
+// 		echo $my_array_of_vars['v'];
+
+		echo "<br>"; echo "<br>";
+		
+		
+		
+		/*******************************
+			assigns
+		*******************************/
+		$smarty->assign_by_ref("feeds", $feed);
+// 		$smarty->assign("feeds", $feed);
+		
+		/*******************************
+			view
+		*******************************/
+		$tpl_name = "D-3/yt.tpl";	//		
+		
+		execute_View($smarty, $tpl_name);
+
+	}//setup_Youtube($smarty)	
 	
 	
 	function D_1_V_1_0($smarty) {
