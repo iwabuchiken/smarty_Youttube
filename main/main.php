@@ -36,30 +36,12 @@
 	function
 	execute_View($smarty, $tpl_name) {
 	
-		$p = "/([^\/]+)(?=\.tpl$)/i";
-	
-		preg_match($p, $tpl_name, $matches);
-	
-		if (count($matches) > 0) {
-				
-			$tpl_name_edited = $matches[1];
-				
-		} else {
-				
-			$tpl_name_edited = $tpl_name;
-				
-		}
-
-		/*******************************
-			assigns
-		*******************************/
-		$smarty->assign('tpl_name', $tpl_name_edited);		//=> w
-	
-		$smarty->assign('title', $tpl_name_edited);
-
-		$smarty->assign('_FILE_', __FILE__);
-// 		$smarty->assign('_FILE_', basename(__FILE__));
-
+// // 		/*******************************
+// // 			assigns
+// // 		*******************************/
+		
+// 		setup_Assigns($smarty, $tpl_name);
+		
 		/*******************************
 		 assign: css file
 		*******************************/
@@ -74,8 +56,6 @@
 		// 		echo "done (".__FILE__.")";
 	
 	}//execute_View($smarty, $tpl_name)
-	
-	
 	
 	function json_test_1() {
 
@@ -211,54 +191,70 @@
 		
 	}
 
-	function setup_Assigns($smarty) {
-		
-	}//setup_Assigns($smarty)
-	
-	function setup() {
+	function setup_Assigns($smarty, $tpl_name) {
 
-		/*******************************
-		 setup: smarty
-		*******************************/
-		$smarty = new SmartyBC();
+		$p = "/([^\/]+)(?=\.tpl$)/i";
 		
-		smarty_Setup($smarty);
-
-		/*******************************
-			assigns
-		*******************************/
-// 		setup_Assigns($smarty);
+		preg_match($p, $tpl_name, $matches);
+		
+		if (count($matches) > 0) {
+		
+			$tpl_name_edited = $matches[1];
+		
+		} else {
+		
+			$tpl_name_edited = $tpl_name;
+		
+		}
 		
 		/*******************************
-			view
+		 assigns
 		*******************************/
-// 		$tpl_name = "plain.tpl";	//
-		// 		$tpl_name = "D-3/index/D_3_V_2_0.tpl";	//
-				$tpl_name = "D-3/main.tpl";	//
+		$smarty->assign('tpl_name', $tpl_name_edited);		//=> w
+		
+		$smarty->assign('title', $tpl_name_edited);
+		
+		$smarty->assign('_FILE_', __FILE__);
+		// 		$smarty->assign('_FILE_', basename(__FILE__));
 		
 		$smarty->assign("message", "ok");
 		
-		execute_View($smarty, $tpl_name);
-
 		/*******************************
-		 youtube
+			specific
 		*******************************/
-		echo "<br>"; echo "<br>";
-		
-		setup_Youtube($smarty);
-		
-		
-		/*******************************
-			meta
-		*******************************/
-		echo "<br>"; echo "<br>";
-		
-		echo $_SERVER['SERVER_ADDR'];
-		
-		echo "<br>"; echo "<br>";
-		
-	}//setup()
+		if ($tpl_name == CONS::$yt_TPL_Start) {
 
+			$client_id	= "995830867486-qvens0m23fvrfjppuuqg4hor1922rpdg.apps.googleusercontent.com";
+			$redirect_uri	= "http://benfranklin.chips.jp/Labs/smarty_Youttube/main/main.php";
+			$scope	= "https://www.googleapis.com/auth/youtube";
+			$response_type	= "code";
+			$access_type	= "offline";
+			
+			$url = "https://accounts.google.com/o/oauth2/auth?"
+					."client_id=$client_id"
+					."&redirect_uri=".urlencode($redirect_uri)
+					."&scope=$scope"
+					."&response_type=$response_type".
+					"&access_type=$access_type";
+			
+			$smarty->assign("url", $url);
+		
+		} else if ($tpl_name == CONS::$yt_TPL_Redirect) {
+			
+			$code = $_REQUEST['code'];
+			
+			$smarty->assign("code", $code);
+			
+		} else {
+		
+			
+			
+		}//if ($tpl_name == CONS::$yt_TPL_Start)
+		
+		
+		
+	}//setup_Assigns($smarty)
+	
 	function 
 	setup_Youtube($smarty) {
 
@@ -477,6 +473,70 @@
 
 	}
 
+	function setup() {
+	
+		/*******************************
+		 setup: smarty
+		*******************************/
+		$smarty = new SmartyBC();
+	
+		smarty_Setup($smarty);
+	
+		/*******************************
+		 assigns
+		*******************************/
+		// 		setup_Assigns($smarty);
+	
+		/*******************************
+		 view
+		*******************************/
+		@$code = $_REQUEST['code'];
+	
+		if ($code == null || $code = "") {
+	
+			$tpl_name = CONS::$yt_TPL_Start;	//
+// 			$tpl_name = "start.tpl";	//
+	
+		} else {
+	
+			$tpl_name = CONS::$yt_TPL_Redirect;
+// 			$tpl_name = "redirect.tpl";	//
+				
+		}//if ($code == null || $code = "")
+	
+		/*******************************
+			assigns
+		*******************************/
+		setup_Assigns($smarty, $tpl_name);
+		
+		
+// 		$smarty->assign("message", "ok");
+
+		/*******************************
+			view
+		*******************************/
+		execute_View($smarty, $tpl_name);
+	
+// 		/*******************************
+// 		 youtube
+// 		*******************************/
+// 		echo "<br>"; echo "<br>";
+	
+// 		setup_Youtube($smarty);
+	
+	
+		/*******************************
+		 meta
+		*******************************/
+		echo "<br>"; echo "<br>";
+	
+		echo $_SERVER['SERVER_ADDR'];
+	
+		echo "<br>"; echo "<br>";
+	
+	}//setup()
+	
+	
 // 	json_test_1();
 	
 // 	json_test_2();

@@ -218,6 +218,12 @@ class CONS {
 	
 	public static $str_Filter_TableName = "filter_table_name";
 	public static $str_Filter_TableName_all = "*";
+
+	/*******************************
+		youtube-related
+	*******************************/
+	public static $yt_TPL_Start = "start.tpl";
 	
+	public static $yt_TPL_Redirect = "redirect.tpl";
 	
 }//class CONS
