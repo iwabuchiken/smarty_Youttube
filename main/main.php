@@ -259,7 +259,16 @@
 			
 			
 			$smarty->assign("url", $url);
-		
+			
+			$smarty->assign("redirect_uri", urlencode($redirect_uri));
+			
+			printf("[%s : %d] redirect_uri => %s", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), 
+							__LINE__, urlencode($redirect_uri));
+			
+			
+			echo "<br>"; echo "<br>";
+			
 		} else if ($tpl_name == CONS::$yt_TPL_Redirect) {
 			
 			$code = $_REQUEST['code'];

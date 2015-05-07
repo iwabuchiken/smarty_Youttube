@@ -3,6 +3,8 @@
 		<title>redirect</title>
 	</head>
 	
+	{include file="includes.tpl" title="YES"}
+	
 	<body>
 	
 	I am: {$_FILE_}
@@ -10,6 +12,10 @@
 		<hr>
 		
 		code => "{$code}"
+		
+		<hr>
+		
+		<a href="https://www.googleapis.com/youtube/v3/channels?part=id&mine=true&access_token={$code}">access</a>
 		
 		<hr>
 		
@@ -31,6 +37,10 @@
 			<input  type="submit" value="Save Genre"/>
 		
 		</form>
+		
+		<hr>
+		
+		<button onclick='get_Youtube_Data("{$code}");'>Get Data</button>
 		
 	</body>
 </html>

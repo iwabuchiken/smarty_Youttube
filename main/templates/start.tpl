@@ -2,10 +2,16 @@
 	<head>
 		<title>start</title>
 	</head>
+
+	{include file="includes.tpl" title="YES"}
 	
 	<body>
 
 	I am: {$_FILE_}
+		
+		<hr>
+		
+		<button onclick='authenticate("{$redirect_uri}")'>AUTH</button>
 		
 		<hr>
 		
