@@ -226,4 +226,6 @@ class CONS {
 	
 	public static $yt_TPL_Redirect = "redirect.tpl";
 	
+	public static $client_secret = "ACVNtPI2DsZaNOsTe8_3Xnt-";
+	
 }//class CONS
