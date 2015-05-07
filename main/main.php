@@ -222,10 +222,24 @@
 		/*******************************
 			specific
 		*******************************/
-		if ($tpl_name == CONS::$yt_TPL_Start) {
-
-			$client_id	= "995830867486-qvens0m23fvrfjppuuqg4hor1922rpdg.apps.googleusercontent.com";
+		$client_id	= "995830867486-qvens0m23fvrfjppuuqg4hor1922rpdg.apps.googleusercontent.com";
+			
+		$server_name = Utils::get_ServerName();
+			
+		if ($server_name == 'localhost') {
+				
+// 			$redirect_uri	= "http://localhost/smarty_Youttube/main/main.php";
 			$redirect_uri	= "http://benfranklin.chips.jp/Labs/smarty_Youttube/main/main.php";
+				
+		} else {
+				
+			$redirect_uri	= "http://benfranklin.chips.jp/Labs/smarty_Youttube/main/main.php";
+				
+		}
+			
+		if ($tpl_name == CONS::$yt_TPL_Start) {
+			
+// 			$redirect_uri	= "http://benfranklin.chips.jp/Labs/smarty_Youttube/main/main.php";
 			$scope	= "https://www.googleapis.com/auth/youtube";
 			$response_type	= "code";
 			$access_type	= "offline";
@@ -236,6 +250,13 @@
 					."&scope=$scope"
 					."&response_type=$response_type".
 					"&access_type=$access_type";
+			
+			printf("[%s : %d] url => %s", 
+							Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__, $url);
+			
+			echo "<br>"; echo "<br>";
+			
+			
 			
 			$smarty->assign("url", $url);
 		
@@ -251,6 +272,14 @@
 			
 		}//if ($tpl_name == CONS::$yt_TPL_Start)
 		
+		/*******************************
+			redirect.tpl-related
+		*******************************/
+		$client_secrect = CONS::$client_secret;
+		
+		$smarty->assign("client_id", $client_id);
+		$smarty->assign("client_secret", $client_secrect);
+		$smarty->assign("redirect_uri", $redirect_uri);
 		
 		
 	}//setup_Assigns($smarty)

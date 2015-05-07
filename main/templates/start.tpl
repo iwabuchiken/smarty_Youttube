@@ -22,7 +22,7 @@
 		
 		<!-- File: C:\WORKS\WS\Eclipse_Luna\smarty_Youttube\libs\plugins\modifier.link_urls.php -->
 		link_urls:"auth"	<br>
-		{$url|link_urls:"auth"}
+		{$url|link_urls:"auth":true}
 		
 		<br>
 		<br>
@@ -30,7 +30,6 @@
 		<!-- REF syntax http://www.smarty.net/docsv2/en/language.modifiers.tpl#language.modifier.capitalize -->
 		{$url|capitalize:false:true}
 
-		
 		<br>
 		<br>
 
